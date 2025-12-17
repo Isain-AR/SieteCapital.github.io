@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanCred | Tu Crédito, Tu Oportunidad para Crecer</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de Lucide Icons (Iconos minimalistas) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Configuración personalizada de Tailwind CSS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    // Definición de la paleta de colores corporativos
+                    colors: {
+                        'financred-primary': '#003366', // Azul Oscuro (Solidez)
+                        'financred-accent': '#d4af37', // Dorado (Éxito)
+                        'financred-light': '#f5f7fa', // Gris muy claro para fondos (Suavidad)
+                        'financred-dark': '#001a33', // Azul casi negro para texto
+                    },
+                    // Definición de la tipografía (se usará Poppins como fallback al sistema)
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Estilos personalizados para animaciones y tipografía -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+        
+        /* Estilo base: Gradiente sutil para evitar el blanco plano */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa; /* Fondo suave */
+            background-image: linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%);
+            color: #1a202c;
+        }
+
+        /* Clase para las animaciones de entrada (inicialmente invisibles) */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* Clase cuando la animación se activa */
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Efecto hover profesional en botones */
+        .btn-primary {
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 51, 102, 0.3);
+        }
+        
+        /* Estilo de la diapositiva para transiciones más pulidas */
+        .mySlides {
+            transition: opacity 0.8s ease-in-out;
+            position: absolute; /* Asegura el apilamiento correcto */
+        }
+
+        /* Estilo para los productos financieros (borde editorial) */
+        .product-card {
+            border-left: 5px solid #d4af37;
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 51, 102, 0.1);
+        }
+
+        /* Estilo para el input de rango (slider) */
+        #loanTerm::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #d4af37;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 3px solid #003366;
+        }
+    </style>
+</head>
+<body class="bg-financred-light">
+
+    <!-- 1. Encabezado (Header) - Minimalista y Fijo -->
+    <header class="sticky top-0 z-50 bg-white shadow-lg backdrop-blur-sm bg-opacity-95">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Logotipo -->
+            <div class="text-3xl font-extrabold text-financred-primary tracking-tighter">
+                Siete<span class="text-financred-accent">Capital</span>
+            </div>
+
+            <!-- Menú de Navegación (Desktop) -->
+            <nav class="hidden md:flex space-x-10 items-center text-financred-dark font-medium text-base">
+                <a href="#inicio" class="hover:text-financred-accent transition duration-300">Inicio</a>
+                <a href="#simulador" class="hover:text-financred-accent transition duration-300">Simulador</a>
+                <a href="#creditos" class="hover:text-financred-accent transition duration-300">Créditos</a>
+                <a href="#nosotros" class="hover:text-financred-accent transition duration-300">Nosotros</a>
+                <!-- <a href="#blog" class="hover:text-financred-accent transition duration-300">Blog</a> -->
+                <a href="#contacto" class="hover:text-financred-accent transition duration-300">Contacto</a>
+                <!-- Botón CTA (Desktop) -->
+                <a href="#contacto" class="btn-primary bg-financred-primary text-white hover:bg-financred-dark font-semibold py-2 px-6 rounded-full shadow-lg">
+                    Solicita tu crédito
+                </a>
+            </nav>
+
+            <!-- Botón de Menú Móvil -->
+            <button id="mobile-menu-button" class="md:hidden text-financred-primary focus:outline-none">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+
+        <!-- Menú Móvil Desplegable -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl">
+            <nav class="flex flex-col space-y-2 px-6 py-4 text-financred-dark font-medium">
+                <a href="#inicio" class="block py-2 hover:bg-financred-light rounded-lg">Inicio</a>
+                <a href="#simulador" class="block py-2 hover:bg-financred-light rounded-lg">Simulador</a>
+                <a href="#creditos" class="block py-2 hover:bg-financred-light rounded-lg">Créditos</a>
+                <a href="#nosotros" class="block py-2 hover:bg-financred-light rounded-lg">Nosotros</a>
+                <a href="#blog" class="block py-2 hover:bg-financred-light rounded-lg">Blog</a>
+                <a href="#contacto" class="block py-2 hover:bg-financred-light rounded-lg">Contacto</a>
+                <a href="#contacto" class="mt-4 block w-full text-center bg-financred-accent text-financred-primary py-2 rounded-full font-bold hover:opacity-90 transition duration-300">
+                    Solicita tu crédito
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2. Sección Hero (Principal) - Slider/Carrusel de Diapositivas con mejor jerarquía -->
+        <section id="inicio" class="relative h-[70vh] md:h-[80vh] flex items-center overflow-hidden shadow-2xl">
+            <div id="hero-slider" class="w-full h-full relative">
+                
+                <!-- SLIDE 1: Crecimiento y Oportunidad -->
+                <div class="mySlides absolute inset-0 bg-financred-primary flex items-center justify-center opacity-0" data-slide="1">
+                    <!-- Sutil superposición de degradado para mejor contraste -->
+                    <div class="absolute inset-0 opacity-15 bg-cover bg-center" style="background-image: url('https://img.freepik.com/foto-gratis/hombre-negocios-financiero-inspector-secretaria-haciendo-informe-calculo-o-comprobacion-balance-inspector-servicio-rentas-internas-revisando-documento-concepto-auditoria_1423-126.jpg?semt=ais_hybrid&w=740&q=80');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-financred-primary/30 to-financred-primary/0"></div>
+                    
+                    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-white text-center">
+                        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-snug mb-4 animate-on-scroll">
+                            <span class="text-financred-accent">Impulsa</span> tu negocio al siguiente nivel.
+                        </h1>
+                        <p class="text-xl sm:text-2xl font-light mb-10 max-w-3xl mx-auto animate-on-scroll delay-100">
+                            El microcrédito flexible que necesitas para convertir tu visión en realidad.
+                        </p>
+                        <a href="#simulador" class="inline-flex items-center justify-center btn-primary bg-financred-accent text-financred-primary hover:bg-yellow-600 font-bold py-4 px-10 rounded-full text-xl shadow-xl animate-on-scroll delay-200">
+                            Simula tu crédito ahora 
+                            <i data-lucide="calculator" class="w-6 h-6 ml-3"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- SLIDE 2: Confianza y Transparencia -->
+                <div class="mySlides absolute inset-0 bg-financred-primary flex items-center justify-center opacity-0" data-slide="2">
+                    <div class="absolute inset-0 opacity-15 bg-cover bg-center" style="background-image: url('https://cdn-3.expansion.mx/dims4/default/beeca26/2147483647/strip/true/crop/1200x628+0+0/resize/1800x942!/format/webp/quality/80/?url=https%3A%2F%2Fcdn-3.expansion.mx%2F4b%2F9e%2F370320474c1dbe859795153e49e2%2Flibertad-financiera.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-financred-primary/30 to-financred-primary/0"></div>
+
+                    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-white text-center">
+                        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-snug mb-4">
+                            Cuentas claras, <span class="text-financred-accent">sin sorpresas</span>.
+                        </h1>
+                        <p class="text-xl sm:text-2xl font-light mb-10 max-w-3xl mx-auto">
+                            Tu socio financiero de confianza: tasas justas y procesos 100% transparentes.
+                        </p>
+                        <a href="#beneficios" class="inline-flex items-center justify-center btn-primary bg-white text-financred-primary hover:opacity-90 font-bold py-4 px-10 rounded-full text-xl shadow-xl">
+                            Conoce nuestros valores
+                            <i data-lucide="check-circle" class="w-6 h-6 ml-3"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- SLIDE 3: Soporte y Rapidez -->
+                <div class="mySlides absolute inset-0 bg-financred-primary flex items-center justify-center opacity-0" data-slide="3">
+                    <div class="absolute inset-0 opacity-15 bg-cover bg-center" style="background-image: url('https://www.santanderopenacademy.com/content/dam/becasmicrosites/01-soa-blog/gestion-financiera-1.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-financred-primary/30 to-financred-primary/0"></div>
+
+                    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-white text-center">
+                        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-snug mb-4">
+                            Respuesta en <span class="text-financred-accent">24 horas</span>.
+                        </h1>
+                        <p class="text-xl sm:text-2xl font-light mb-10 max-w-3xl mx-auto">
+                            Sabemos que el tiempo es dinero. Proceso ágil y capital disponible cuando más lo necesitas.
+                        </p>
+                        <a href="#contacto" class="inline-flex items-center justify-center btn-primary bg-financred-accent text-financred-primary hover:bg-yellow-600 font-bold py-4 px-10 rounded-full text-xl shadow-xl">
+                            Iniciar mi solicitud
+                            <i data-lucide="send" class="w-6 h-6 ml-3"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Botones de Navegación (Flechas) -->
+                <button onclick="plusSlides(-1)" class="absolute top-1/2 left-6 transform -translate-y-1/2 bg-black bg-opacity-20 hover:bg-opacity-40 text-white p-4 rounded-full z-20 transition duration-300 hidden sm:block">
+                    <i data-lucide="chevron-left" class="w-7 h-7"></i>
+                </button>
+                <button onclick="plusSlides(1)" class="absolute top-1/2 right-6 transform -translate-y-1/2 bg-black bg-opacity-20 hover:bg-opacity-40 text-white p-4 rounded-full z-20 transition duration-300 hidden sm:block">
+                    <i data-lucide="chevron-right" class="w-7 h-7"></i>
+                </button>
+
+                <!-- Puntos de Navegación (Dots) - Más grandes y visibles -->
+                <div style="text-align:center" class="absolute bottom-6 left-0 right-0 z-20">
+                    <span class="dot inline-block h-4 w-4 mx-2 bg-white bg-opacity-50 rounded-full cursor-pointer transition-opacity duration-300 hover:bg-opacity-80 shadow-md" onclick="currentSlide(1)"></span>
+                    <span class="dot inline-block h-4 w-4 mx-2 bg-white bg-opacity-50 rounded-full cursor-pointer transition-opacity duration-300 hover:bg-opacity-80 shadow-md" onclick="currentSlide(2)"></span>
+                    <span class="dot inline-block h-4 w-4 mx-2 bg-white bg-opacity-50 rounded-full cursor-pointer transition-opacity duration-300 hover:bg-opacity-80 shadow-md" onclick="currentSlide(3)"></span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 3. Simulador de Crédito (Calculadora de Intereses) - NUEVO -->
+        <section id="simulador" class="py-20 bg-financred-light">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-center text-financred-primary mb-10 animate-on-scroll">
+                    Simula Tu Crédito Ahora
+                </h2>
+                <p class="text-xl text-center text-gray-700 max-w-3xl mx-auto mb-12 animate-on-scroll delay-100">
+                    Conoce tu cuota mensual estimada al instante. Transparencia desde el inicio.
+                </p>
+
+                <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-3xl shadow-2xl animate-on-scroll delay-200">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Inputs del Simulador -->
+                        <div class="space-y-6">
+                            <div>
+                                <label for="loanAmount" class="block text-lg font-semibold text-financred-dark mb-2">Monto Deseado (MXN)</label>
+                                <input type="number" id="loanAmount" value="5000" min="1000" step="500" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-financred-accent focus:border-financred-accent text-xl transition">
+                                <p class="text-sm text-gray-500 mt-1">Mínimo $1,000 MXN</p>
+                            </div>
+                            <div>
+                                <label for="loanTerm" class="block text-lg font-semibold text-financred-dark mb-2">Plazo (semanas)</label>
+                                <input type="range" id="loanTerm" min="6" max="36" value="12" class="w-full h-2 bg-financred-light rounded-lg appearance-none cursor-pointer range-lg">
+                                <div class="flex justify-between text-sm text-gray-600 mt-2">
+                                    <span>6 semanas</span>
+                                    <span id="termValue" class="font-bold text-financred-primary">12 semanas</span>
+                                    <span>36 semanas</span>
+                                </div>
+                            </div>
+                            <!-- Tasa de Interés Fija (Ejemplo) -->
+                            <div class="pt-4">
+                                <label class="block text-lg font-semibold text-financred-dark mb-2">Tasa de Interés Anual (Ejemplo)</label>
+                                <div class="flex items-center">
+                                    <!-- Dejo la tasa de ejemplo como solo lectura para evitar que el usuario la cambie, pero la mantengo como input para que se vea como un campo de datos. -->
+                                    <input type="number" id="annualRate" value="24" step="0.5" readonly class="w-full p-4 border-2 border-gray-200 bg-financred-light rounded-xl text-xl font-bold text-financred-accent">
+                                    <span class="ml-3 text-2xl text-financred-accent font-extrabold">%</span>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-1">Esta es una tasa de interés anual de ejemplo (TNA). La tasa final puede variar.</p>
+                            </div>
+                        </div>
+
+                        <!-- Resultados -->
+                        <div class="flex flex-col justify-between bg-financred-primary p-8 rounded-2xl shadow-inner text-white">
+                            <h3 class="text-2xl font-bold border-b border-financred-accent pb-3 mb-4">Tu Resultado Estimado</h3>
+                            
+                            <div class="space-y-6">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-lg opacity-80">Monto del Préstamo:</span>
+                                    <span id="resultAmount" class="text-2xl font-extrabold text-white">$5,000</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-lg opacity-80">Plazo Total:</span>
+                                    <span id="resultTerm" class="text-2xl font-extrabold text-white">12 semanas</span>
+                                </div>
+                                <div class="flex justify-between items-center pt-4 border-t border-white/20">
+                                    <span class="text-xl font-light">Cuota Mensual Estimada:</span>
+                                    <!-- Aquí se muestra el resultado calculado -->
+                                    <span id="monthlyPayment" class="text-3xl font-extrabold text-financred-accent">$472.80</span>
+                                </div>
+                            </div>
+
+                            <a href="#contacto" class="btn-primary w-full text-center bg-financred-accent text-financred-primary hover:bg-yellow-600 transition duration-300 font-bold py-3 rounded-full text-lg shadow-lg mt-8">
+                                ¡Solicitar con esta simulación!
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Sección de Beneficios - Diseño Asimétrico de Características (Ahora es el 4to bloque) -->
+        <section id="beneficios" class="py-20 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-center text-financred-dark mb-16 animate-on-scroll">
+                    Por qué elegir <span class="text-financred-accent">SieteCapital</span>
+                </h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-12">
+                    <!-- Tarjeta 1: Tasas Accesibles -->
+                    <div class="space-y-4 text-center animate-on-scroll delay-100">
+                        <i data-lucide="line-chart" class="w-16 h-16 text-financred-accent mx-auto p-3 bg-financred-light rounded-full border-2 border-financred-accent/50 shadow-md"></i>
+                        <h3 class="text-xl font-bold text-financred-primary">Tasas Competitivas</h3>
+                        <p class="text-gray-600 text-base">Financiación justa, pensada para que tu capital de trabajo te brinde una verdadera rentabilidad.</p>
+                    </div>
+                    
+                    <!-- Tarjeta 2: Aprobación Rápida -->
+                    <div class="space-y-4 text-center animate-on-scroll delay-200">
+                        <i data-lucide="clock-fast" class="w-16 h-16 text-financred-accent mx-auto p-3 bg-financred-light rounded-full border-2 border-financred-accent/50 shadow-md"></i>
+                        <h3 class="text-xl font-bold text-financred-primary">Proceso Ágil</h3>
+                        <p class="text-gray-600 text-base">Respuesta en 24 horas. Minimizamos el papeleo para que obtengas tu dinero sin demoras innecesarias.</p>
+                    </div>
+                    
+                    <!-- Tarjeta 3: Sin Trámites Complicados -->
+                    <div class="space-y-4 text-center animate-on-scroll delay-300">
+                        <i data-lucide="maximize-2" class="w-16 h-16 text-financred-accent mx-auto p-3 bg-financred-light rounded-full border-2 border-financred-accent/50 shadow-md"></i>
+                        <h3 class="text-xl font-bold text-financred-primary">Flexibilidad Total</h3>
+                        <p class="text-gray-600 text-base">Adaptamos los plazos y los montos a la realidad de tu emprendimiento, no al revés.</p>
+                    </div>
+
+                    <!-- Tarjeta 4: Atención Personalizada -->
+                    <div class="space-y-4 text-center animate-on-scroll delay-400">
+                        <i data-lucide="users" class="w-16 h-16 text-financred-accent mx-auto p-3 bg-financred-light rounded-full border-2 border-financred-accent/50 shadow-md"></i>
+                        <h3 class="text-xl font-bold text-financred-primary">Soporte Humano</h3>
+                        <p class="text-gray-600 text-base">Siempre tendrás un asesor dedicado. Construimos una relación de cercanía y apoyo mutuo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 5. Sección de Productos Financieros - Estilo Editorial y Separado -->
+        <section id="creditos" class="py-20 bg-financred-light">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-center text-financred-primary mb-16 animate-on-scroll">
+                    El Crédito Ideal para Tu Proyecto
+                </h2>
+
+                <div class="space-y-12">
+                    <!-- Producto 1: Crédito Emprendedor -->
+                    <div class="product-card bg-white p-8 rounded-3xl shadow-xl animate-on-scroll flex flex-col lg:flex-row items-start lg:space-x-10">
+                        <div class="lg:w-1/4 mb-6 lg:mb-0">
+                            <i data-lucide="trending-up" class="w-12 h-12 text-financred-primary mb-3"></i>
+                            <h3 class="text-3xl font-bold text-financred-dark">Crédito Emprendedor</h3>
+                            <p class="text-financred-accent font-semibold mt-1">Para arrancar y crecer</p>
+                        </div>
+                        <div class="lg:w-3/4">
+                            <p class="text-gray-700 leading-relaxed text-lg">
+                                Si estás lanzando tu idea al mercado, este es tu aliado. Cubre inventario inicial, compra de insumos menores o primer equipo. Diseñado para ofrecer una curva de pagos suave que respeta la etapa temprana de tu flujo de caja. Concéntrate en el negocio, nosotros nos encargamos del capital.
+                            </p>
+                            <a href="#contacto" class="text-financred-accent font-semibold flex items-center mt-3 hover:underline">
+                                Solicitar información <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Producto 2: Crédito de Negocio Establecido -->
+                    <div class="product-card bg-white p-8 rounded-3xl shadow-xl animate-on-scroll flex flex-col lg:flex-row-reverse items-start lg:space-x-reverse lg:space-x-10">
+                         <div class="lg:w-1/4 mb-6 lg:mb-0 text-right">
+                            <i data-lucide="briefcase" class="w-12 h-12 text-financred-primary mb-3 mx-auto lg:mx-0"></i>
+                            <h3 class="text-3xl font-bold text-financred-dark">Capital de Negocio</h3>
+                            <p class="text-financred-accent font-semibold mt-1">Para consolidación y expansión</p>
+                        </div>
+                        <div class="lg:w-3/4 text-left lg:text-right">
+                            <p class="text-gray-700 leading-relaxed text-lg">
+                                ¿Buscas expandir tu local, comprar maquinaria pesada o abrir una segunda sucursal? Este crédito está pensado para la inversión estratégica. Ofrecemos montos significativos y plazos extendidos que se alinean con proyectos de crecimiento a mediano y largo plazo.
+                            </p>
+                            <a href="#contacto" class="text-financred-accent font-semibold flex items-center justify-start lg:justify-end mt-3 hover:underline">
+                                Solicitar información <i data-lucide="external-link" class="w-4 h-4 ml-2 lg:ml-0 lg:mr-2"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                     <!-- Producto 3: Crédito Mujer Empresaria -->
+                    <div class="product-card bg-white p-8 rounded-3xl shadow-xl animate-on-scroll flex flex-col lg:flex-row items-start lg:space-x-10">
+                        <div class="lg:w-1/4 mb-6 lg:mb-0">
+                            <i data-lucide="heart-handshake" class="w-12 h-12 text-financred-primary mb-3"></i>
+                            <h3 class="text-3xl font-bold text-financred-dark">Crédito Mujer</h3>
+                            <p class="text-financred-accent font-semibold mt-1">Impulso al liderazgo femenino</p>
+                        </div>
+                        <div class="lg:w-3/4">
+                            <p class="text-gray-700 leading-relaxed text-lg">
+                                Creamos condiciones especiales y tasas preferenciales para las mujeres líderes de microempresas. Es nuestro compromiso con el fomento de la autonomía económica y la reducción de la brecha de género en los negocios. Únete a la red de empresarias SieteCapital.
+                            </p>
+                            <a href="#contacto" class="text-financred-accent font-semibold flex items-center mt-3 hover:underline">
+                                Solicitar información <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Testimonios o Historias de Éxito - Impacto Visual -->
+        <section id="historias" class="py-20 bg-financred-primary">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-center text-white mb-16 animate-on-scroll">
+                    Nuestros Clientes lo <span class="text-financred-accent">Confirman</span>
+                </h2>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Testimonio 1 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-xl animate-on-scroll delay-100 border-t-8 border-financred-accent">
+                        <i data-lucide="quote" class="w-10 h-10 text-financred-primary mb-4"></i>
+                        <p class="italic text-gray-700 text-lg mb-6">"Pude comprar mi primer horno industrial. Mi panadería creció un 40% en el primer año. ¡Gracias, SieteCapital, por la confianza!"</p>
+                        <p class="font-bold text-financred-dark">- Ana M.</p>
+                        <p class="text-sm text-gray-500">Panadería 'El Trigo Dorado'</p>
+                    </div>
+
+                    <!-- Testimonio 2 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-xl animate-on-scroll delay-200 border-t-8 border-financred-accent">
+                        <i data-lucide="quote" class="w-10 h-10 text-financred-primary mb-4"></i>
+                        <p class="italic text-gray-700 text-lg mb-6">"El proceso fue increíblemente rápido y sencillo. En menos de 48 horas tenía el dinero para renovar el stock de mi ferretería."</p>
+                        <p class="font-bold text-financred-dark">- Ricardo V.</p>
+                        <p class="text-sm text-gray-500">Ferretería 'El Martillo'</p>
+                    </div>
+                    
+                    <!-- Testimonio 3 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-xl animate-on-scroll delay-300 border-t-8 border-financred-accent">
+                        <i data-lucide="quote" class="w-10 h-10 text-financred-primary mb-4"></i>
+                        <p class="italic text-gray-700 text-lg mb-6">"Mi asesora me ayudó a elegir el mejor plan para mi taller de costura, y hoy doy empleo a tres personas más. Un trato realmente humano."</p>
+                        <p class="font-bold text-financred-dark">- Sofía G.</p>
+                        <p class="text-sm text-gray-500">Taller de Costura 'Modas del Sol'</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 7. Formulario de Contacto o Precalificación - Sección CTA Dedicada -->
+        <section id="contacto" class="py-20 bg-financred-accent text-financred-primary">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto flex flex-col lg:flex-row shadow-2xl rounded-3xl overflow-hidden animate-on-scroll">
+                    
+                    <!-- Lado Izquierdo: Mensaje CTA -->
+                    <div class="lg:w-1/3 p-8 bg-financred-primary text-white flex flex-col justify-center items-center text-center">
+                        <i data-lucide="handshake" class="w-16 h-16 text-financred-accent mb-4"></i>
+                        <h3 class="text-3xl font-bold mb-2">¡Demos el primer paso!</h3>
+                        <p class="text-lg font-light opacity-80">Rellena el formulario y recibe tu precalificación en minutos.</p>
+                    </div>
+
+                    <!-- Lado Derecho: Formulario -->
+                    <div class="lg:w-2/3 p-8 md:p-10 bg-white">
+                        <p class="text-xl font-semibold text-financred-dark mb-6">
+                            Completa tu solicitud rápida:
+                        </p>
+                        
+                        <!-- Formulario de Precalificación (simulado) -->
+                        <form id="precalificacion-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Nombre -->
+                            <div>
+                                <label for="nombre" class="sr-only">Nombre Completo</label>
+                                <input type="text" id="nombre" name="nombre" placeholder="Nombre Completo" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-financred-accent focus:border-financred-accent transition duration-300">
+                            </div>
+                            
+                            <!-- Teléfono -->
+                            <div>
+                                <label for="telefono" class="sr-only">Teléfono</label>
+                                <input type="tel" id="telefono" name="telefono" placeholder="Teléfono" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-financred-accent focus:border-financred-accent transition duration-300">
+                            </div>
+                            
+                            <!-- Correo Electrónico -->
+                            <div>
+                                <label for="correo" class="sr-only">Correo Electrónico</label>
+                                <input type="email" id="correo" name="correo" placeholder="Correo Electrónico" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-financred-accent focus:border-financred-accent transition duration-300">
+                            </div>
+                            
+                            <!-- Monto Deseado -->
+                            <div>
+                                <label for="monto" class="sr-only">Monto Deseado</label>
+                                <input type="number" id="monto" name="monto" placeholder="Monto Deseado (MXN)" required min="100" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-financred-accent focus:border-financred-accent transition duration-300">
+                            </div>
+                            
+                            <!-- Botón de Envío -->
+                            <button type="submit" class="btn-primary col-span-1 md:col-span-2 bg-financred-accent text-financred-primary hover:bg-yellow-600 transition duration-300 font-bold py-3 rounded-lg text-lg shadow-lg mt-2">
+                                Enviar Solicitud de Precalificación
+                            </button>
+
+                            <!-- Mensaje de confirmación/error -->
+                            <div id="form-message" class="col-span-1 md:col-span-2 mt-4 p-3 hidden rounded-lg text-center font-medium"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 8. Pie de Página (Footer) - Estilo Corporativo Sólido -->
+    <footer class="bg-financred-dark text-white py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
+                
+                <!-- Logotipo y Dirección -->
+                <div class="col-span-2 md:col-span-2">
+                    <h4 class="text-3xl font-extrabold text-financred-accent mb-4 tracking-tighter">SieteCapital</h4>
+                    <p class="text-sm opacity-80 mb-4">
+                        Microfinanciera líder en impulso a emprendedores.<br>
+                        Comprometidos con tu crecimiento y el desarrollo local.
+                    </p>
+                    <p class="text-xs opacity-60">
+                        Av. Central #123, Piso 5 - Ciudad Emprendedora
+                    </p>
+                </div>
+                
+                <!-- Navegación -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 border-b border-financred-primary pb-1">Navegación</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#inicio" class="hover:text-financred-accent transition duration-300">Inicio</a></li>
+                        <li><a href="#simulador" class="hover:text-financred-accent transition duration-300">Simulador</a></li>
+                        <li><a href="#creditos" class="hover:text-financred-accent transition duration-300">Créditos</a></li>
+                        <li><a href="#nosotros" class="hover:text-financred-accent transition duration-300">Nosotros</a></li>
+                        <li><a href="#blog" class="hover:text-financred-accent transition duration-300">Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contacto Rápido -->
+                <div class="col-span-2 md:col-span-2">
+                    <h4 class="text-lg font-semibold mb-4 border-b border-financred-primary pb-1">Contáctanos</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-3 text-financred-accent"></i> info@sietecapital.com</li>
+                        <li class="flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-3 text-financred-accent"></i> +52 55 1234 5678</li>
+                        <li class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-3 text-financred-accent"></i> Ver Ubicación en Mapa</li>
+                        <div class="flex space-x-4 mt-4 pt-2 border-t border-financred-primary">
+                            <a href="#" aria-label="Facebook" class="hover:text-financred-accent transition duration-300"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                            <a href="#" aria-label="Twitter" class="hover:text-financred-accent transition duration-300"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                            <a href="#" aria-label="LinkedIn" class="hover:text-financred-accent transition duration-300"><i data-lucide="linkedin" class="w-6 h-6"></i></a>
+                        </div>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Derechos Reservados -->
+            <div class="border-t border-financred-primary pt-6 mt-6 text-center text-sm opacity-60">
+                &copy; 2025 SieteCapital. Todos los derechos reservados. | Políticas de Privacidad
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Scripts de JavaScript para Interactividad y Animaciones -->
+    <script>
+        // Lógica del Slider (Carrusel)
+        let slideIndex = 1;
+        let slideInterval;
+
+        // Función principal para mostrar las diapositivas
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            
+            // Ciclo infinito: si se pasa del límite o es menor a 1, vuelve al inicio/fin
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            
+            // Oculta todas las diapositivas con una transición de opacidad
+            for (i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('opacity-100', 'z-10');
+                slides[i].classList.add('opacity-0', 'z-0');
+            }
+            
+            // Puntos de navegación: remueve el color de acento de todos
+            for (i = 0; i < dots.length; i++) {
+                dots[i].style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+            }
+            
+            // Muestra la diapositiva actual y la resalta
+            slides[slideIndex - 1].classList.remove('opacity-0', 'z-0');
+            slides[slideIndex - 1].classList.add('opacity-100', 'z-10'); // Hace visible
+            dots[slideIndex - 1].style.backgroundColor = '#d4af37'; // Resalta el punto con Dorado
+        }
+
+        // Navegación con flechas: Suma/Resta 1 al índice y reinicia el intervalo
+        function plusSlides(n) {
+            clearInterval(slideInterval);
+            showSlides(slideIndex += n);
+            startSlideInterval();
+        }
+
+        // Navegación con puntos: Va directamente al índice seleccionado y reinicia el intervalo
+        function currentSlide(n) {
+            clearInterval(slideInterval);
+            showSlides(slideIndex = n);
+            startSlideInterval();
+        }
+
+        // Función para el avance automático
+        function autoSlides() {
+            plusSlides(1);
+        }
+
+        // Inicia el intervalo de avance automático (cada 5 segundos)
+        function startSlideInterval() {
+             // Se asegura de que no haya intervalos duplicados
+             slideInterval = setInterval(autoSlides, 5000); 
+        }
+
+        // --- Lógica del Simulador de Crédito ---
+        function calculateMonthlyPayment() {
+            const A = parseFloat(document.getElementById('loanAmount').value);
+            const r = parseFloat(document.getElementById('annualRate').value) / 100; // Tasa Anual
+            const n = parseInt(document.getElementById('loanTerm').value); // Plazo en semanas
+
+            const i = r / 12; // Tasa Mensual
+
+            let monthlyPayment = 0;
+            // Aseguramos que los valores sean válidos para evitar NaN
+            if (A > 0 && n > 0 && r >= 0) {
+                if (r > 0) {
+                    // Fórmula de Amortización (francés): P = A * [ i(1 + i)^n ] / [ (1 + i)^n - 1 ]
+                    monthlyPayment = A * (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
+                } else {
+                    // Si la tasa es cero, es solo el capital dividido por el plazo
+                    monthlyPayment = A / n;
+                }
+            }
+
+            // Actualiza los resultados en la UI
+            document.getElementById('resultAmount').textContent = `$${A.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+            document.getElementById('resultTerm').textContent = `${n} semanas`;
+            
+            // Muestra el pago mensual o un valor por defecto si es inválido
+            document.getElementById('monthlyPayment').textContent = monthlyPayment > 0 
+                ? `$${monthlyPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` 
+                : '$0.00';
+            
+            // Actualiza el valor del rango de plazo
+            document.getElementById('termValue').textContent = `${n} semanas`;
+        }
+        
+        // Asigna listeners a los campos de entrada
+        // Se disparan en cualquier cambio de los inputs para recalcular
+        document.getElementById('loanAmount').addEventListener('input', calculateMonthlyPayment);
+        document.getElementById('loanTerm').addEventListener('input', calculateMonthlyPayment);
+        
+        // 3. Lógica para Animaciones al Hacer Scroll (Intersection Observer)
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                // Si el elemento es visible
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Dejar de observar una vez animado para ahorrar recursos
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0.1 // El 10% del elemento debe ser visible para activar
+        });
+
+        // Esta función se ejecuta cuando el DOM está completamente cargado
+        window.onload = function() {
+            // 1. Inicializa los iconos de Lucide (los convierte de tags <i> a SVG)
+            lucide.createIcons();
+            
+            // Llama a la función para inicializar el simulador con valores por defecto
+            calculateMonthlyPayment();
+
+            // 2. Lógica del Menú Móvil
+            document.getElementById('mobile-menu-button').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+            
+            // Cierra el menú móvil al hacer clic en un enlace de navegación
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                });
+            });
+
+            // 3. Lógica de Envío de Formulario (Simulado)
+            document.getElementById('precalificacion-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formMessage = document.getElementById('form-message');
+                
+                // Simulación de envío
+                formMessage.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-green-100', 'text-green-800');
+                formMessage.classList.add('bg-blue-100', 'text-blue-800');
+                formMessage.textContent = 'Enviando solicitud...';
+
+                setTimeout(() => {
+                    // Simulación de respuesta exitosa
+                    formMessage.classList.remove('bg-blue-100', 'text-blue-800');
+                    formMessage.classList.add('bg-green-100', 'text-green-800');
+                    formMessage.textContent = '¡Gracias por tu solicitud! Un asesor de FinanCred te contactará pronto.';
+                    this.reset(); // Limpia el formulario
+                }, 2000);
+            });
+            
+            // 4. Inicia las Animaciones al Scroll
+            document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                observer.observe(element);
+            });
+
+            // 5. Inicia el Slider (Carrusel)
+            showSlides(slideIndex);
+            startSlideInterval();
+        };
+
+        // Exponer funciones del slider al scope global para que funcionen los onclick en el HTML
+        window.plusSlides = plusSlides;
+        window.currentSlide = currentSlide;
+    </script>
+</body>
+</html>
